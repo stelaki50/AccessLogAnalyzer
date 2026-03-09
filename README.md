@@ -4,7 +4,7 @@
 
 ```bash
 git clone https://github.com/stelaki50/Thesis.git
-cd Thesis.git
+cd Thesis
 ```
 
 ### **2. Run with docker (docker-compose)**
