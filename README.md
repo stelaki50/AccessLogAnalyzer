@@ -3,7 +3,7 @@
 ### 1. Clone the Repository
 
 ```bash
-https://github.com/stelaki50/Thesis.git
+git clone https://github.com/stelaki50/Thesis.git
 cd Thesis.git
 ```
 
