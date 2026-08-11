@@ -9,7 +9,6 @@ import { getCountriesPerIp,getCountryCount } from "../services/fetchData";
 import { COUNTRY_MAP } from "../data/countryMap";
 
 
-
 const CountriesPerIpBox = () => {  
 
   countries.registerLocale(en);
@@ -67,7 +66,7 @@ const CountriesPerIpBox = () => {
             value: value,
           };
         })
-        .filter(Boolean); // remove nulls
+        .filter(Boolean); 
           
       setGeographyData(convertedData);
 

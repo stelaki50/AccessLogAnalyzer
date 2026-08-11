@@ -7,7 +7,6 @@ import HttpChart from "../charts/HttpChart";
 
 
 
-
 const HttpBar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);

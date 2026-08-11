@@ -29,16 +29,8 @@ const HttpStatusCodeBox = () => {
   useEffect(() => {
     if (!statusCodePerMinute) return;
     
-    console.log("Status code per minute",statusCodePerMinute)
-    // const sortedMap = new Map(
-    //   [...statusCodePerMinute].sort((a, b)=> a[0].localeCompare(b[0]))
-    // );
-
-    //const methods = [...sortedMap.keys()];
-    //const count = [...sortedMap.values()];
-
-     const methods = Object.keys(statusCodePerMinute); 
-     const count = Object.values(statusCodePerMinute); 
+    const methods = Object.keys(statusCodePerMinute); 
+    const count = Object.values(statusCodePerMinute); 
 
     setHttpMethodChart({
       labels: methods,

@@ -3,10 +3,11 @@ import React, { useEffect, useRef } from "react";
 import { tokens } from "../theme";
 import { useTheme } from "@mui/material";
 
-
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip,Legend
 } from "chart.js";
-  
+
+// This Bar Chart displays the 10 most common Ip Addresses in the log file 
+
 ChartJS.register( CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend);
 
 export default function BarChart({ labels, data , variant }){

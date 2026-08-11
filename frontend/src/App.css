@@ -1,7 +1,4 @@
-/* 
-body{
-  background-color: #282c34;
-} */
+
  html, body, #root, .app {
      height: 100%;
      margin: 0;
@@ -48,16 +45,16 @@ body{
 }
 
  .content {
-     flex-grow: 1;          /* Tells the dashboard to fill the remaining space */
-     height: 100vh;         /* Makes the content area full height */
-     overflow-y: auto;      /* Only the dashboard area scrolls, not the sidebar */
+     flex-grow: 1;         
+     height: 100vh;        
+     overflow-y: auto;      
      background-color: transparent;
    }
 
 
 
 .app {
-     display: flex;       /* This puts children (Sidebar & Main) in a row */
+     display: flex;      
      width: 100%;
      min-height: 100vh; 
      width: 100%;

@@ -63,11 +63,11 @@ useEffect(() => {
     }
   });
 
-    return () => {
-      chartRef.current?.destroy();
-      chartRef.current = null;
-    };
-    },[labels, data]);
+  return () => {
+    chartRef.current?.destroy();
+    chartRef.current = null;
+  };
+  },[labels, data]);
 
   return (
     <div style={{ height: size.height, width: size.width }}>

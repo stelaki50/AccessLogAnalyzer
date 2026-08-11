@@ -111,6 +111,22 @@ const MySidebar = () => {
               setSelected={setSelected}
             />
 
+            <Item
+              title="BotDetector"
+              to="botDetector"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
+               <Item
+              title="SecurityAnalysis"
+              to="securityAnalysis"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+
             <Typography
               variant="h6"
               color={colors.grey[300]}

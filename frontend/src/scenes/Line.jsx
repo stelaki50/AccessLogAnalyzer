@@ -5,7 +5,6 @@ import { tokens } from "../theme";
 import LineChart from "../charts/LineChart";
 import { getRequestPerMinute } from "../services/fetchData";
 
-
 const Line = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);

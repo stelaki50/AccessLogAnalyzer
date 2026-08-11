@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getMostCommonIps,getRequestPerMinute } from "../services/fetchData";
 import { Box, Paper } from "@mui/material";  
 import BarChart from "../charts/BarChart";
-import LineChart from '../charts/LineChart';
+import LineChart from "../charts/LineChart";
 
 
 const TrafficBox = () => {   
