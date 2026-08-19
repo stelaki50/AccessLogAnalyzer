@@ -22,6 +22,8 @@ const CountriesPerIpBox = () => {
       const fetchData = async () => {
       try {
           const countries = await getCountriesPerIp();
+
+          console.log("The countries per IP are ", countries)
           const countriesCount = await getCountryCount();
           setCountriesPerIp(countries)             
           setCountryCount(countriesCount)

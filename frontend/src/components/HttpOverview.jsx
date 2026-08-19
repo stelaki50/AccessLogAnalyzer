@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Paper } from "@mui/material";  
 import MuiCard from "../components/Card";
-import { getSuccessfulRequests, getuniqueIpCount, gethttpMethodsCount, getAverageResponseSize, getTotalBandwidth} from "../services/fetchData";
+import { getSuccessfulRequests, getUniqueIpCount, getHttpMethodsCount, getAverageResponseSize, getTotalBandwidth} from "../services/fetchData";
 import HttpDoughnutChart from "../charts/HttpDoughnutChart";
 import StatusCodeDistributionBar from "./StatusCodeDistributionBar"
 
@@ -19,8 +19,8 @@ const HttpOverview = () => {
         const fetchData = async () => {
         try {
             const successfulRequests = await getSuccessfulRequests();
-            const uniqueIpCount = await getuniqueIpCount();
-            const httpMethodsCount = await gethttpMethodsCount();
+            const uniqueIpCount = await getUniqueIpCount();
+            const httpMethodsCount = await getHttpMethodsCount();
             const averageResponseSize =  await getAverageResponseSize();
             const totalBandwidth = await getTotalBandwidth();
 

@@ -1,208 +1,127 @@
+let analysisData = null;
+let botData = null;
+let securityData= null;
 
-// This file defines functions to fetch the data from the API.
-import Axios from "axios";
-
-const URL = process.env.REACT_APP_API_URL;
-const BOT_URL = process.env.REACT_APP_BOT_API_URL;
-const SECURITY_URL = process.env.REACT_APP_SECURITY_API_URL;
-
-console.log("BOT_URL is:", BOT_URL);
-
-export const getCountriesPerIp = async () => {
-  const res = await Axios.get(`${URL}/mostFrequentCountries`);
-  return res.data;
+// Store the complete analysis result in browser memory.
+export const setAnalysisData = (data) => {
+    analysisData = data;
 };
 
-export const getMostCommonIps = async () => {
-  const res = await Axios.get(`${URL}/mostCommonIps`);
-  return res.data;
-};
 
-export const getTotalLogEntries = async () => {
-  const res = await Axios.get(`${URL}/totalLogEntries`);
-  return res.data;
+export const setBotData = (data) => {
+    botData = data;
 };
 
 
 
-export const getRequestPerMinute = async () => {
-  const res = await Axios.get(`${URL}/RequestPerMinute`);
-  return res.data;
-};
-
-export const getStatusCodeCount = async () => {
-  const res = await Axios.get(`${URL}/statusCodeCount`);
-  return res.data;
-};
-
-export const getStatusCodesPerMinute = async () => {
-  const res = await Axios.get(`${URL}/StatusCodesPerMinute`);
-  return res.data;
-};
-
-export const getCountryCount = async () => {
-  const res = await Axios.get(`${URL}/CountryCount`);
-  return res.data;
-};
-
-export const getSessionDurations = async () => {
-  const res = await Axios.get(`${BOT_URL}/sessionDurationPerIp`);
-  return res.data;
-};
-
-export const getPercentageOf4xxPerIp = async () => {
-  const res = await Axios.get(`${BOT_URL}/percentageOf4xxPerIp`);
-  return res.data;
-};
-
-
-export const getPercentageOfPdfPerIp = async () => {
-  const res = await Axios.get(`${BOT_URL}/percentageOfPdfPerIp`);
-  return res.data;
-};
-
-
-export const getPercentageOfImagePerIp = async () => {
-  const res = await Axios.get(`${BOT_URL}/percentageOfImagePerIp`);
-  return res.data;
-};
-
-
-export const getIpHasRobotTxt = async () => {
-  const res = await Axios.get(`${BOT_URL}/ipHasRobotTxt`);
-  return res.data;
+export const setSecurityData = (data) => {
+    securityData = data;
 };
 
 
 
+function requireAnalysis() {
 
-export const getTotalSessions = async () => {
-  const res = await Axios.get(`${BOT_URL}/totalSessions`);
-  return res.data;
-};
+    if (!analysisData) {
+        throw new Error(
+            "No log file has been analyzed yet — upload a file first."
+        );
+    }
 
+    return analysisData;
+}
 
+function requireBotAnalysis() {
 
-export const getEmptyUaCount = async () => {
-  const res = await Axios.get(`${BOT_URL}/emptyUaCount`);
-  return res.data;
-};
+    if (!botData) {
+        throw new Error(
+            "No log file has been analyzed yet — upload a file first."
+        );
+    }
 
-
-
-
-export const getTotalRobotTxt = async () => {
-  const res = await Axios.get(`${BOT_URL}/totalRobotTxt`);
-  return res.data;
-};
-
-
-
-export const getHighClickRatePerIp = async () => {
-  const res = await Axios.get(`${BOT_URL}/highClickRatePerIp`);
-  return res.data;
-};
+    return botData;
+}
 
 
+function requireSecurityAnalysis() {
 
+    if (!securityData) {
+        throw new Error(
+            "No log file has been analyzed yet — upload a file first."
+        );
+    }
 
-export const getSearchEngineCrawlers = async () => {
-  const res = await Axios.get(`${BOT_URL}/searchEngineCrawlers`);
-  return res.data;
-};
-
-
-
-export const getAICrawlers = async () => {
-  const res = await Axios.get(`${BOT_URL}/aICrawlers`);
-  return res.data;
-};
-
-
-
-export const getGeneralCrawlers = async () => {
-  const res = await Axios.get(`${BOT_URL}/generalCrawlers`);
-  return res.data;
-};
+    return securityData;
+}
 
 
 
 
-export const getBrowserDistirbution = async () => {
-  const res = await Axios.get(`${BOT_URL}/browserDistirbution`);
-  return res.data;
-};
+// Access Log Analysis (raw input user)
+
+export const getCountriesPerIp = async () => requireAnalysis().mostFrequentCountries;
+
+export const getMostCommonIps = async () => requireAnalysis().mostCommonIps;
+
+export const getTotalLogEntries = async () => requireAnalysis().totalLogEntries;
+
+export const getRequestPerMinute = async () => Array.from(requireAnalysis().RequestPerMinute.entries());  
+
+export const getStatusCodeCount = async () => requireAnalysis().statusCodeCount;
+
+export const getStatusCodesPerMinute = async () => Object.fromEntries(requireAnalysis().StatusCodesPerMinute);
+
+export const getCountryCount = async () => Object.fromEntries(requireAnalysis().CountryCount);
+
+
+// Bot analysis
+
+export const getTotalSessions = async () => requireBotAnalysis().totalSessions;
+
+export const getEmptyUaCount = async () => requireBotAnalysis().emptyUaCount;
+
+export const getTotalRobotTxt = async () => requireBotAnalysis().totalRobotTxt;
+
+export const getPercentageOf4xxPerIp = async () => Object.fromEntries(requireBotAnalysis().percentageOf4xxPerIp);
+
+export const getSessionDurations = async () => Object.fromEntries(requireBotAnalysis().sessionDurationPerIp);
+
+export const getBrowserDistirbution = async () => requireBotAnalysis().browserDistirbution;
+
+export const getAICrawlers = async () => requireBotAnalysis().aICrawlers;
+
+export const getSearchEngineCrawlers = async () => requireBotAnalysis().searchEngineCrawlers;
+
+export const getGeneralCrawlers = async () => requireBotAnalysis().generalCrawlers;
 
 
 
-export const gethttpMethodsCount = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/httpMethodsCount`);
-  return res.data;
-};
+// Security analysis
+
+
+export const getHttpMethodsCount = async () => requireSecurityAnalysis().httpMethodsCount;
+
+
+export const getSuccessfulRequests = async () => requireSecurityAnalysis().successfulRequests;
+
+export const getUniqueIpCount = async () => requireSecurityAnalysis().uniqueIpCount;
+
+export const getStatusCodeDistribution = async () => Object.fromEntries(requireSecurityAnalysis().statusCodeDistribution);
+
+export const getTopEndpoints = async () => requireSecurityAnalysis().topEndpoints;
+
+export const getTopReferers = async () => requireSecurityAnalysis().topReferers;
+
+export const getHourlyActivity = async () => Array.from(requireSecurityAnalysis().hourlyActivity.entries());
+
+
+export const getErrorPattern = async () => requireSecurityAnalysis().errorPattern;
+
+export const getAverageResponseSize = async () => requireSecurityAnalysis().averageResponseSize;
+
+
+export const getTotalBandwidth = async () => requireSecurityAnalysis().totalBandwidth;
 
 
 
-export const getuniqueIpCount = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/uniqueIpCount`);
-  return res.data;
-};
 
-
-
-
-
-export const getSuccessfulRequests = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/successfulRequests`);
-  return res.data;
-};
-
-
-
-
-export const getTopReferers = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/topReferers`);
-  return res.data;
-};
-
-
-export const getTopEndpoints = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/topEndpoints`);
-  return res.data;
-};
-
-
-
-export const getHourlyActivity = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/hourlyActivity`);
-  return res.data;
-};
-
-
-export const getErrorPattern = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/errorPattern`);
-  return res.data;
-};
-
-
-
-export const getStatusCodeDistribution = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/statusCodeDistribution`);
-  return res.data;
-};
-
-
-
-export const getAverageResponseSize = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/averageResponseSize`);
-  return res.data;
-};
-
-
- 
-
-
-
-export const getTotalBandwidth = async () => {
-  const res = await Axios.get(`${SECURITY_URL}/totalBandwidth`);
-  return res.data;
-};
