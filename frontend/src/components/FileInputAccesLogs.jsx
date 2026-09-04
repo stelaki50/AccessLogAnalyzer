@@ -14,10 +14,8 @@ const FileInputAccessLogs = ({ onUploadSuccess }) => {
     setIsProcessing(true);
 
     try {
-        // 1. Read the file in the browser
+        
         const fileContent = await file.text();
-
-
 
         const analysisResult = await accessLogAnalyzer(fileContent);
  
@@ -25,12 +23,10 @@ const FileInputAccessLogs = ({ onUploadSuccess }) => {
 
         const securityAnalysisResult = securityAnalysis(analysisResult);
 
-
         setAnalysisData(analysisResult);
         setBotData(botAnalysisResult);
         setSecurityData(securityAnalysisResult);
         
-
         onUploadSuccess();
 
     } catch (error) {
@@ -71,7 +67,7 @@ const FileInputAccessLogs = ({ onUploadSuccess }) => {
 
             <button className="file-button" onClick={onChoseFile} disabled={isProcessing}>
                 <span className="material-symbols-rounded">upload</span>
-                {isProcessing ? "Analyzing..." : "Upload log File"}
+                {isProcessing ? "Analyzing..." : "Upload Access Log File"}
             </button>
 
             {selectedFile && (

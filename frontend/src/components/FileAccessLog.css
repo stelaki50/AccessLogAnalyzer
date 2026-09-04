@@ -18,12 +18,12 @@
 
 }
 .file-input-wrapper {
-    height: 80vh;              /* takes most of screen */
+    height: 80vh;            
     display: flex;
     flex-direction: column;
-    align-items: center;      /* horizontal center */
-    justify-content: center;  /* vertical center */
-    transform: translateY(-40px); /* move slightly upward */
+    align-items: center;      
+    justify-content: center; 
+    transform: translateY(-40px); 
 }
 .file-button:hover {
     color: #8a3ffc;
