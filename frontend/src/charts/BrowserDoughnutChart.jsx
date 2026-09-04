@@ -16,7 +16,7 @@ export default function DoughnutChart({ labels, data , variant }) {
   const size =
     variant === "large"
       ? { height: 700, width: 700 }
-      : { height: 500, width: 500 };
+      : { height: 350, width: 350 };
 
 
   useEffect(() => {

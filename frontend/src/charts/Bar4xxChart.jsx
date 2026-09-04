@@ -26,7 +26,7 @@ export default function BarChart({ labels = [], data = [], variant }) {
   const size =
     variant === "large"
       ? { height: 700, width: 900 }
-      : { height: 500, width: 450 };
+      : { height: 350, width: 350 };
 
   // Only keep IPs that actually have a 4xx percentage recorded.
   // Treat null, undefined, "", NaN, AND 0 as "no data".
