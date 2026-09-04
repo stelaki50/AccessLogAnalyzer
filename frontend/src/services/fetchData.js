@@ -2,7 +2,7 @@ let analysisData = null;
 let botData = null;
 let securityData= null;
 
-// Store the complete analysis result in browser memory.
+// Store the access log analysis in browser memory.
 export const setAnalysisData = (data) => {
     analysisData = data;
 };
@@ -56,7 +56,6 @@ function requireSecurityAnalysis() {
 
 
 
-
 // Access Log Analysis (raw input user)
 
 export const getCountriesPerIp = async () => requireAnalysis().mostFrequentCountries;
@@ -93,6 +92,8 @@ export const getAICrawlers = async () => requireBotAnalysis().aICrawlers;
 export const getSearchEngineCrawlers = async () => requireBotAnalysis().searchEngineCrawlers;
 
 export const getGeneralCrawlers = async () => requireBotAnalysis().generalCrawlers;
+
+export const getBotIpAddresses =  async () => requireBotAnalysis().botIpAddresses;
 
 
 
