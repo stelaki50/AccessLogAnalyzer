@@ -1,7 +1,6 @@
 import { Box,useTheme } from "@mui/material";
 import SessionDurationBox from "../components/SessionDurationBox"
-import PersentagesBox from "../components/PersentagesBox"
-
+import BotTable from "./tables/BotTable"
 import Header from "../components/Header";
 import { tokens } from "../theme";
 import BotSummaryCards from "../components/BotSummaryCards";
@@ -29,15 +28,14 @@ export default function BotDetector() {
           <SessionDurationBox/>
         </Box> 
  
- 
-        <Box gridColumn="span 12" backgroundColor={colors.primary[400]} p="20px">
-          <PersentagesBox />
+        <Box gridColumn=" span 12" backgroundColor={colors.primary[400]} p="20px" display="flex" justifyContent="center">
+          <Box width="100%">
+            <BotTable maxHeight={500} />
+          </Box>
         </Box>
-      
     </Box>
+  </Box>
 
-    </Box>
-
-    );
+);
 }
 

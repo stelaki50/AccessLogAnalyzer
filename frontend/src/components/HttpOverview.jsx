@@ -102,7 +102,7 @@ const HttpOverview = () => {
 
     </Box>
 
-    <Paper elevation={3} sx={{ flex: 1, p: 2, height: "500px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <Paper elevation={3} sx={{ flex: 1, p: 2, height: "443px", display: "flex", justifyContent: "center", alignItems: "center" }}>
       <HttpDoughnutChart
         labels={httpDoughnutData.labels}
         data={httpDoughnutData.data}
