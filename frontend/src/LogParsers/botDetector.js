@@ -310,8 +310,6 @@ function getClickTimestamps(requests) {
     }
   }
  
-  // Sessions are usually already in chronological log order, but
-  // sort defensively in case requests were merged from elsewhere.
   clickSeconds.sort((a, b) => a - b);
   return clickSeconds;
 }
@@ -332,7 +330,6 @@ function maxSustainedClickRate(clickTimesSeconds, windowSeconds = 12) {
  
     queue.push(i);
  
-    // Evict clicks that fell more than windowSeconds behind current click
     while (currentTime - clickTimesSeconds[queue[0]] >= windowSeconds) {
       queue.shift();
     }
@@ -347,8 +344,8 @@ function maxSustainedClickRate(clickTimesSeconds, windowSeconds = 12) {
   return {
     maxClicks,
     ratePerSecond: maxClicks / windowSeconds,
-    peakStart: clickTimesSeconds[bestStart], // Unix seconds, start of peak window
-    peakEnd: clickTimesSeconds[bestEnd],     // Unix seconds, end of peak window
+    peakStart: clickTimesSeconds[bestStart], 
+    peakEnd: clickTimesSeconds[bestEnd],    
   };
 }
  
@@ -450,9 +447,71 @@ function getBrowserDistribution(userAgent) {
 }
 
 
+// This function returns a map with the ips that shown signs of bot activity and the ones from the known crawlers
+function getBotIpAddresses(ips, urls, userAgents) {
+
+    const suspiciousIps = new Map();
+
+    // Known crawler regexes
+    const SearchEngineRegex = /Googlebot(-Image|-News|-Video)?|Mediapartners-Google|AdsBot-Google|Google-Extended|bingbot|adidxbot|Slurp|YandexBot|Baiduspider|DuckDuckBot|Sogou|Yeti|SeznamBot|coccoc|PetalBot|Mail\.RU_Bot|Qwantify|Teoma|Exabot|ia_archiver|Gigabot/gi;
+
+    const AICrawlerRegex = /GPTBot|ChatGPT-User|OAI-SearchBot|ClaudeBot|Claude-User|PerplexityBot|CCBot|Meta-ExternalAgent/gi;
+
+    const generalCrawlersRegex = /facebookexternalhit|FacebookBot|Twitterbot|LinkedInBot|Slackbot|Discordbot|TelegramBot|WhatsApp|Pinterestbot|Applebot|AhrefsBot|SemrushBot|MJ12bot|DotBot|BLEXBot|Bytespider|DataForSeoBot|SiteAuditBot|UptimeRobot|Pingdom|StatusCake|ArchiveBot|Wayback|curl|Wget|python-requests|axios|PostmanRuntime/gi;
+
+    for (let i = 0; i < ips.length; i++) {
+
+        const ip = ips[i];
+        const currentURL = urls[i];
+        const currentUserAgent = userAgents[i];
+
+
+        // Include ips that requested robots.txt
+
+        const logURL = new URL(currentURL, "http://dummy");
+        const pathURL = logURL.pathname;
+
+        if (pathURL === "/robots.txt"){
+            suspiciousIps.set(ip, "robots.txt in the request");
+        }
+
+
+        // Include ips that have an empty User-Agent field
+        if ( typeof currentUserAgent !== "string" || currentUserAgent.trim() === ""){
+            suspiciousIps.set(ip, "Missing User-Agent ");
+        }
+
+
+        // Identify known crawlers
+        let match;
+        match = currentUserAgent?.match(SearchEngineRegex);
+
+        if (match) {
+            suspiciousIps.set(ip,`${match[0]} detected`);
+        }
+
+        match = currentUserAgent?.match(AICrawlerRegex);
+
+        if (match) {
+            suspiciousIps.set(ip,`${match[0]} detected`);
+        }
+
+        match = currentUserAgent?.match(generalCrawlersRegex);
+
+        if (match) {
+            suspiciousIps.set(ip,`${match[0]} detected`);
+        }
+    }
+
+    return suspiciousIps;
+}
+
+
+
+
 function botDetector(accessLogData) {
 
-    const { ipAddresses, userAgent, statusCode,responseSize, requestTarget, fullTimeStamp } = accessLogData;
+    const { ipAddresses, userAgent, statusCode, responseSize, requestTarget, fullTimeStamp } = accessLogData;
 
     const sessions = sessionIdentification(ipAddresses, userAgent, fullTimeStamp, statusCode, requestTarget);
     const sessionDurationPerIp   = getSessionDurations(sessions);
@@ -475,6 +534,8 @@ function botDetector(accessLogData) {
     const searchEngineCrawlers = getKnownCrawlers(userAgent, SearchEngineRegex);
     const aICrawlers = getKnownCrawlers(userAgent, AICrawlerRegex);
     const generalCrawlers = getKnownCrawlers(userAgent,generalCrawlersRegex);
+    const botIpAddresses = getBotIpAddresses(ipAddresses,requestTarget,userAgent);
+
 
 
     return {
@@ -491,6 +552,7 @@ function botDetector(accessLogData) {
         aICrawlers,
         generalCrawlers,
         browserDistirbution,
+        botIpAddresses,
        
     };
 }
